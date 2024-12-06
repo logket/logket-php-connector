@@ -1,0 +1,190 @@
+<style>
+    @font-face {
+        font-family: 'JetBrains Mono';
+        src: url('https://cdn.logket.dev/global/fonts/jet-brains-mono.ttf') format('truetype');
+    }
+
+    .__logket-print-abstract-group{
+        padding-left: 15px;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .__logket-print-abstract-collection{
+        border-left: 1px dashed #ffffff40;
+    }
+
+    .__logket-print-abstract-collection-expand-button{
+        width: 23px;
+        height: 13px;
+        font-size: 10px;
+        line-height: 0;
+        padding: 0px;
+        border: none;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        cursor: pointer;
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+
+    .__logket-print-abstract-collection-expand-button span{
+        pointer-events: none;
+    }
+
+    .__logket-print-abstract-space{
+        height: 7px;
+    }
+
+    .__logket-print-abstract-font-color-white{
+        color: #ffffff;
+    }
+
+    .__logket-print-abstract-font-color-blue{
+        color: #4b78e6;
+    }
+
+    .__logket-print-abstract-font-color-muted{
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .__logket-print-abstract-font-color-green{
+        color: #73dc8c;
+    }
+
+    .__logket-print-abstract-font-color-yellow{
+        color: #f8ff72;
+    }
+
+    .__logket-print-abstract-font-color-pink{
+        color: #fa9bfa;
+    }
+
+    .__logket-print-abstract-font-color-purple{
+        color: #ae81ff;
+    }
+
+    .__logket-print-abstract-font-style-italic{
+        font-style: italic;
+    }
+</style>
+
+<style>
+    .__logket-print-view{
+        background: #161b22;
+        border-radius: 10px;
+        font-family: 'JetBrains Mono', monospace;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 500;
+        overflow: hidden;
+        position: relative;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .__logket-print-view-body{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        line-height: 19px;
+    }
+
+    .__logket-print-view-footer{
+        background: #272e35;
+        padding: 8px 15px;
+    }
+
+    .__logket-print-view-footer-logo{
+        height: 14px;
+        position: absolute;
+        right: 12px;
+        bottom: 8px;
+    }
+
+    .__logket-print-view-footer-filename{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        display: block;
+        max-width: 400px;
+    }
+
+    @media only screen and (max-width: 500px){
+        .__logket-print-view-footer-logo{
+            display: none;
+        }
+    }
+</style>
+
+<script type="text/javascript">
+    function __logketRenderDumpAbstract(node, parentElement, renderViewElement){
+        if(node.type=="text"){
+            let nodeTextElememt = document.createElement("span");
+            nodeTextElememt.setAttribute("class", node.style.map(className => `__logket-print-abstract-${className}`).join(" "));
+            nodeTextElememt.innerText = node.value;
+            parentElement.appendChild(nodeTextElememt);
+        }
+        if(node.type=="space"){
+            let nodeTextElememt = document.createElement("span");
+            nodeTextElememt.setAttribute("class", `__logket-print-abstract-space`);
+            nodeTextElememt.innerHTML = `&nbsp;`;
+            parentElement.appendChild(nodeTextElememt);
+        }
+        else if(node.type=="group"){
+            let nodeGroupElement = document.createElement("div");
+            nodeGroupElement.setAttribute("class", "__logket-print-abstract-group");
+            parentElement.appendChild(nodeGroupElement);
+
+            Array.from(node.children).forEach(function (node){
+                __logketRenderDumpAbstract(node, nodeGroupElement, renderViewElement);
+            });
+        }
+        else if(node.type=="collection"){
+            let isFirstCollection = renderViewElement.querySelector(`.__logket-print-abstract-collection`)===null;
+            let nodeExpandButtonElement = document.createElement("button");
+            nodeExpandButtonElement.setAttribute("class", "__logket-print-abstract-collection-expand-button");
+            nodeExpandButtonElement.innerHTML = (isFirstCollection)?`<span>&hookleftarrow;</span>`:`<span>&hookrightarrow;</span>`;
+            nodeExpandButtonElement.setAttribute("data-is-open", (isFirstCollection)?"true":"false");
+            nodeExpandButtonElement.onclick = function (event){
+                let isOpened = event.target.getAttribute("data-is-open")=="true"
+                let childElements = event.target.parentNode.children;
+
+                Array.from(childElements).forEach(function (childElement){
+                    if(childElement.classList.contains("__logket-print-abstract-collection")){
+                        if(isOpened){
+                            event.target.innerHTML = `<span>&hookrightarrow;</span>`;
+                            event.target.setAttribute("data-is-open", "false");
+                            childElement.style.display = "none";
+                        }
+                        else{
+                            event.target.innerHTML = `<span>&hookleftarrow;</span>`;
+                            event.target.setAttribute("data-is-open", "true");
+                            childElement.style.display = "block";
+                        }
+                    }
+                });
+            };
+            parentElement.appendChild(nodeExpandButtonElement);
+
+            let nodeCollectionElement = document.createElement("div");
+            nodeCollectionElement.setAttribute("class", "__logket-print-abstract-collection");
+            nodeCollectionElement.style.display = (isFirstCollection)?"block":"none";
+            parentElement.appendChild(nodeCollectionElement);
+
+            Array.from(node.items).forEach(function (node){
+                __logketRenderDumpAbstract(node, nodeCollectionElement, renderViewElement);
+            });
+        }
+    }
+</script>
+
+<script>
+    function __logketInitPrintView(nodeId){
+        let node = eval(`__logketPrintViewNodes_${nodeId}`);
+        let wrapperElement = document.getElementById(`logket-print-view-${nodeId}`);
+        let dumpViewBodyElement = wrapperElement.querySelector(".__logket-print-view-body");
+
+        __logketRenderDumpAbstract(node.data, dumpViewBodyElement, wrapperElement);
+    }
+</script>

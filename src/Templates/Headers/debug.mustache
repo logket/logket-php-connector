@@ -1,0 +1,78 @@
+<style>
+    @font-face {
+        font-family: 'JetBrains Mono';
+        src: url('https://cdn.logket.dev/global/fonts/jet-brains-mono.ttf') format('truetype');
+    }
+
+    .__logket-debug-view{
+        background: #161b22;
+        border-radius: 10px;
+        font-family: 'JetBrains Mono', monospace;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 500;
+        overflow: hidden;
+        position: relative;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .__logket-debug-view-body{
+        padding: 12px 16px;
+    }
+
+    .__logket-debug-view-body h3{
+        margin: 0px;
+        font-weight: 600;
+        font-size: 12px;
+        padding-left: 22px;
+    }
+
+    .__logket-debug-view-warning-icon{
+        height: 18px;
+        position: absolute;
+        left: 17px;
+        top: 11px;
+    }
+
+    .__logket-debug-view-body p{
+        margin: 0px;
+        margin-top: 8px;
+    }
+
+    .__logket-dump-debug-footer{
+        background: #272e35;
+        min-height: 16px;
+        padding: 8px 15px;
+    }
+
+    .__logket-dump-debug-footer p{
+        margin: 0px;
+    }
+
+    .__logket-dump-debug-footer p a{
+        opacity: 0.8;
+        margin-right: 10px;
+        color: #ffffff;
+        text-decoration: none;
+        transition-duration: 0.3s;
+    }
+
+    .__logket-dump-debug-footer p a:hover{
+        opacity: 1;
+    }
+
+    .__logket-debug-view-footer-logo{
+        height: 14px;
+        position: absolute;
+        right: 12px;
+        bottom: 8px;
+        pointer-events: none;
+    }
+
+    @media only screen and (max-width: 350px){
+        .__logket-dump-debug-footer p{
+            display: none;
+        }
+    }
+</style>

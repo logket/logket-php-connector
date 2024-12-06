@@ -1,0 +1,18 @@
+<div id="logket-print-view-{{id}}" class="__logket-print-view">
+    <div class="__logket-print-view-body"></div>
+    <div class="__logket-print-view-footer">
+        <span class="__logket-print-view-footer-filename">
+            {{#called_file_name}}
+                {{called_file_name}}{{#called_file_line_number}}<span style="opacity: 0.5;">:{{called_file_line_number}}</span>{{/called_file_line_number}}
+            {{/called_file_name}}
+        </span>
+        <a href="https://app.logket.dev" target="_blank">
+            <img class="__logket-print-view-footer-logo" src="https://cdn.logket.dev/global/images/logket-white-text-logo.svg">
+        </a>
+    </div>
+</div>
+
+<script>
+    let __logketPrintViewNodes_{{id}} = {{{payload}}};
+    __logketInitPrintView(`{{id}}`);
+</script>

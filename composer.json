@@ -1,0 +1,29 @@
+{
+    "name": "logket/logket-php-connector",
+    "description": "Logket connector for PHP language",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Niyko",
+            "email": "hello@niyko.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Logket\\": "src/",
+            "Logket\\Serialize\\": "src/Serialize/"
+        },
+        "files": [
+            "src/Global.php"
+        ]
+    },
+    "require": {
+        "php": ">=7.0.0",
+        "phrity/websocket": "^3.1",
+        "mustache/mustache": "^2.14"
+    }
+}
